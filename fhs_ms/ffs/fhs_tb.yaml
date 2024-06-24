@@ -1,0 +1,180 @@
+devices:
+  ixia:
+      type: tgn
+      alias: ixia
+      os: 'ixianative'
+      connections:
+          tgn:
+              class: genie.trafficgen.ixianative.IxiaNative
+              ixnetwork_api_server_ip: 10.197.127.23
+              ixnetwork_tcl_port: 8009
+              ixnetwork_version: '9.10'
+              ixia_chassis_ip: 10.197.127.16
+              ixia_license_server_ip: 10.197.127.16
+              ixia_port_list: ['1/11/7', '1/11/8','1/11/4', '1/11/1','1/11/2', '1/11/8','1/11/11']
+      custom:
+          config: fhs_fact.ixncfg
+
+  fx301:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: leaf12
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2028
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  fx302:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: leaf11
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2027
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  gx01:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: leaf21
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2029
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  gx02:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: leaf22
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2030
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  fx303:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: leaf31
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2033
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin 
+  fx01:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: spine
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2031
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  Tetly1:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: sw1
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2041
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  fx02:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: sw2
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2032
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  #t2p1:
+  #  os: 'nxos'
+  #  platform: n9k
+  #  type: 'router'
+  #  alias: sw3
+  #  connections:
+  #    defaults:
+  #      class: unicon.Unicon
+  #    a:
+  #        protocol: telnet
+  #        ip: "10.197.127.12"
+  #        port: 2049
+  #  credentials:
+  #    enable:
+  #      password: nbv12345
+  #    default:
+  #      password: nbv12345
+  #      username: admin

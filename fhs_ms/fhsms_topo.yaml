@@ -1,0 +1,780 @@
+fhs_test:
+  mac_address:
+    sw1 :
+      mac_start: '00:11:11:11:00:11'      
+    sw2 :
+      mac_start: '00:22:22:22:00:22'
+    sw3 :
+      mac_start: '00:33:33:33:00:33'
+    sw1Svi :
+      mac_add: '78:11:11:11:11:01'
+    sw2Svi :
+      mac_add: '78:22:22:22:11:02'
+    sw3Svi :
+      mac_add: 'ec:bd:33:33:33:e1'      
+  snoop_table:
+    fx301:
+      local: ['00:11:11:11:00:11','78:11:11:11:11:01']               
+    fx302:  
+      local:  ['00:11:11:11:00:11','78:11:11:11:11:01']     
+    gx01:  
+      local: ['78:22:22:22:11:02'] 
+    gx02: 
+      local: ['00:33:33:33:00:33','00:11:33:33:33:11']     
+    fx303:  
+      local:  ['00:33:33:33:00:33','00:11:33:33:33:11']     
+
+
+#00:00:00:47:89:ba  4.1.4.201        infinite  static      1005  nve1(peer-id: 2)
+#00:00:00:4a:5d:16  4.1.4.225        infinite  static      1005  nve1(peer-id: 1)
+#00:00:00:64:3b:19  4.1.4.215        infinite  static      1005  nve1(peer-id: 2)
+#00:00:00:68:19:ca  4.1.4.221        infinite  static      1005  nve1(peer-id: 1)
+
+
+fhs:
+  trigger:
+    client_move:
+      local:
+        o2o:
+        o2vpc:
+        v2v:
+      remote:
+        leaf2toleaf3:
+        leaf1toleaf2:
+        leaf3toleaf1: 
+    server_move:
+      local:
+        o2o:
+        o2vpc:
+        v2v:
+      remote:
+        leaf2toleaf3:
+        leaf1toleaf2:
+        leaf3toleaf1:          
+  verify:
+    dai:
+    ipsg:
+    traffic:
+    convergence:
+
+tgn_connection:
+  Tetly1:
+    Eth:       
+      E1/1/1:     
+  fx02:
+    Eth:       
+      E1/1:  
+  #t2p1:
+  #  Eth:       
+  #    E1/1/1:  
+  fx301:
+    Eth:       
+      E1/47:     
+  fx302:
+    Eth:       
+      E1/47:     
+  fx303:
+    Eth:       
+      E1/49/1:    
+  gx01:
+    Eth:       
+      E1/1/1:     
+  gx02:
+    Eth:       
+      E1/1/1:    
+
+host_move:
+  fx301:
+    vlan_list : [1005]
+    port_list : ['Po11']  
+  fx302:
+    vlan_list : [1005]
+    port_list : ['Po11']   
+  gx01:
+    vlan_list : [1005]
+    port_list : ['Po22']     
+  gx02:
+    vlan_list : [1005]
+    port_list : ['Po22']      
+  #fx303:
+  #  vlan_list : [1005]
+  #  port_list : ['Po33']   
+  Tetly1:
+    vlan_list : [1005]
+    port_list : ['Po11']   
+  fx02:
+    vlan_list : [1005]
+    port_list : ['Po22']   
+  #t2p1:
+  #  vlan_list : [1005]
+  #  port_list : ['Po33']   
+
+
+vxlan:
+  l2_vlan_start: 1001
+  #l2_vlan_end: 1100
+  l2_vlan_scale: 20
+  l2_vni_start: 201001
+  l2_vni_end: 1100
+  l3_vlan_start: 101     
+  l3_vlan_scale: 2
+  l3_vni_start: 900101
+  ip_address : '4.1.0.1'
+  ipv6_address : '4:0:0:1::1'
+  l2vlan_per_vrf : 10
+  mcast_group_start : '239.1.1.1'
+
+
+pim:
+  ssm_range : '232.0.0.0/8'
+  pim_rp_address: '1.1.1.101'
+
+
+vxlan_fhs:
+  fx301:
+      vlan_list : [1005,1006,1007]
+      port_list : ['Po11','Po21','Po31','E1/47']  
+  fx302:
+      vlan_list : [1005,1006,1007]
+      port_list : ['Po11','Po21','Po31','E1/47']
+  gx01:
+      vlan_list : [1005,1006,1007]
+      port_list : ['Po12','Po22','Po32'] 
+  gx02:
+      vlan_list : [1005,1006,1007]
+      port_list : ['Po12','Po22','Po32'] 
+  fx303:
+      vlan_list : [1005,1006,1007]
+      port_list : ['E1/49/1'] 
+
+ 
+dhcp_static:
+  fx301:
+    profile1:    
+      vlan: 1005
+      interface: 'po11'
+      ip_address_start: '4.1.4.200' 
+      scale : 2
+
+  fx302:
+    profile1:    
+      vlan: 1005
+      interface: 'po11'
+      ip_address_start: '4.1.4.215' 
+      scale : 2
+
+  gx01:
+    profile1:    
+      vlan: 1005
+      interface: 'po22'
+      ip_address_start: '4.1.4.220' 
+      scale : 2
+
+  gx02:
+    profile1:    
+      vlan: 1005
+      interface: 'po22'
+      ip_address_start: '4.1.4.225' 
+      scale : 2
+
+  fx303:
+    profile1:    
+      vlan: 1005
+      interface: 'po33'
+      ip_address_start: '4.1.4.230' 
+      scale : 2
+
+igp:
+  ospf:
+    fx301:
+      router_id : '1.1.1.11'
+      intf1_list : ['loopback0','loopback1','Eth1/37','Eth1/38']
+    fx302:
+      router_id : '1.1.1.21'
+      intf1_list : ['loopback0','loopback1','Eth1/39','Eth1/40']
+    gx01:
+      router_id : '1.1.1.31'
+      intf1_list : ['loopback0','loopback1','Eth1/7/1','Eth1/7/2','Eth1/7/3','Eth1/7/4']
+    gx02:
+      router_id : '1.1.1.41'
+      intf1_list : ['loopback0','loopback1','Eth1/9/1','Eth1/9/2','Eth1/9/3','Eth1/9/4']
+    fx303:
+      router_id : '1.1.1.51'
+      intf1_list : ['loopback0','loopback1','Eth1/54/1','Eth1/54/2','Eth1/54/3','Eth1/54/4']
+    fx01:
+      router_id : '1.1.1.101'
+      intf1_list : ['loopback0','loopback1','Eth1/37','Eth1/38','Eth1/39','Eth1/40','Eth1/21','Eth1/22','Eth1/23','Eth1/24','Eth1/3','Eth1/4','Eth1/5','Eth1/6','Eth1/54/1','Eth1/54/2','Eth1/54/3','Eth1/54/4'] 
+
+
+bgp:
+  ibgp:
+    as_number : 65535
+    fx301:
+      router_id : '1.1.1.11'
+      neigh_list : ['1.1.1.101']
+    fx302:
+      router_id : '1.1.1.21'
+      neigh_list : ['1.1.1.101']
+    gx01:
+      router_id : '1.1.1.31'
+      neigh_list : ['1.1.1.101']
+    gx02:
+      router_id : '1.1.1.41'
+      neigh_list : ['1.1.1.101']
+    fx303:
+      router_id : '1.1.1.51'
+      neigh_list : ['1.1.1.101']
+    fx01:
+      router_id : '1.1.1.101'
+      neigh_list : ['1.1.1.11','1.1.1.21','1.1.1.31','1.1.1.41','1.1.1.51']
+
+
+interfaces:
+  Tetly1:
+    layer2:       
+      Port_channel11:
+        name: 'port-channel 11'
+        Description : 'vpc 11'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        members: ['Eth1/7','Eth1/8','Eth1/9','Eth1/10']
+        lacp_mode : 'active'
+
+      Port_channel12:
+        name: 'port-channel 12'
+        Description : 'vpc 12'   
+        switchport_mode: 'trunk'
+        switchport_vlan: 'none'
+        members: ['Eth1/3','Eth1/5']
+        lacp_mode : 'active'
+
+      Port_channel13:
+        name: 'port-channel 13'
+        Description : 'vpc 13'   
+        switchport_vlan: 'none'
+        switchport_mode: 'trunk'
+        members: ['Eth1/6']
+        lacp_mode : 'active'
+
+      Eth1/11:
+        name: 'Eth1/65'
+        Description : 'TGN'   
+        switchport_mode: 'access'
+        switchport_vlan: '1005'
+
+  fx02:
+    layer2:        
+      Port_channel21:
+        name: 'port-channel 21'
+        Description : 'vpc 21'   
+        switchport_vlan: 'none'
+        switchport_mode: 'trunk'
+        members: ['Eth1/4','Eth1/5','Eth1/10','Eth1/11']
+
+      Port_channel22:
+        name: 'port-channel 22'
+        Description : 'vpc 22'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        members: ['Eth1/49/1','Eth1/49/2','Eth1/50/1','Eth1/50/2']
+
+      Eth1/11:
+        name: 'Eth1/1'
+        Description : 'TGN'   
+        switchport_mode: 'access'
+        switchport_vlan: '1005'
+
+ 
+  #t2p1:
+  #  layer2:      
+  #    Port_channel31:
+  #      name: 'port-channel 31'
+  #      Description : 'vpc 31'   
+  #      switchport_vlan: 'none'
+  #      switchport_mode: 'trunk'
+  #      members: ['Eth1/3/1','Eth1/3/2','Eth1/4/1','Eth1/4/2']
+
+  #    Port_channel32:
+  #      name: 'port-channel 32'
+  #      Description : 'vpc 32'   
+  #      switchport_vlan: 'none'
+  #      switchport_mode: 'trunk'
+  #      members: ['Eth1/13/1','Eth1/13/2','Eth1/15/1','Eth1/15/2']
+
+  #    Port_channel33:
+  #      name: 'port-channel 33'
+  #      Description : 'vpc 33'   
+  #      switchport_vlan: '1005'
+  #      switchport_mode: 'trunk'
+  #      members: ['Eth1/25']
+
+  #    Eth1/11:
+  #      name: 'Eth1/1/1'
+  #      Description : 'TGN'   
+  #      switchport_mode: 'access'
+  #      switchport_vlan: '1005'
+
+  fx301:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.11'
+        ip_add_secondary : '1.1.1.1'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2012::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.12'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2012::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.13'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2012::3/128'
+
+    layer3:       
+      Eth1/37:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/38:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+
+    layer2:       
+      Port_channel1:
+        name: 'port-channel 1'
+        Description : 'peer-link'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1001-1101'
+        vpc: 'peer-link'
+        members: ['Eth1/1','Eth1/2','Eth1/3','Eth1/4']
+
+      Port_channel11:
+        name: 'port-channel 11'
+        Description : 'vpc 11'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '11'
+        members: ['Eth1/51','Eth1/52']
+
+      Port_channel21:
+        name: 'port-channel 21'
+        Description : 'vpc 21'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '21'
+        members: ['Eth1/13','Eth1/14']
+
+      #Port_channel31:
+      #  name: 'port-channel 31'
+      #  Description : 'vpc 31'   
+      #  switchport_mode: 'trunk'
+      #  switchport_vlan: '1005'
+      #  members: ['Eth1/5','Eth1/6']
+      #  vpc: '31'
+
+
+      Eth1/47:
+        name: 'Eth1/47'
+        Description : 'TGN'   
+        switchport_mode: 'access'
+        switchport_vlan: '1005'
+
+    vpc:
+      domain_id: '1'
+      #system_mac: '2.2.2'
+      #virtual_peer_link_ip: 
+      keepalive_dst_ip: '10.197.127.25'
+      keepalive_src_ip: '10.197.127.24'
+      keepalive_vrf: 'management'
+
+ 
+  fx302:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.21'
+        ip_add_secondary : '1.1.1.1'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2022::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.22'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2022::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.23'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2022::3/128'
+
+    layer3:             
+      Eth1/39:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/40:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+
+    layer2:       
+      Port_channel1:
+        name: 'port-channel 1'
+        Description : 'peer-link'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1001-1101'
+        vpc: 'peer-link'
+        members: ['Eth1/1','Eth1/2','Eth1/3','Eth1/4']
+
+      Port_channel11:
+        name: 'port-channel 11'
+        Description : 'vpc 11'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '11'
+        members: ['Eth1/51','Eth1/52']
+
+      Port_channel21:
+        name: 'port-channel 21'
+        Description : 'vpc 21'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '21'
+        members: ['Eth1/13','Eth1/14']
+
+      #Port_channel31:
+      #  name: 'port-channel 31'
+      #  Description : 'vpc 31'   
+      #  switchport_mode: 'trunk'
+      #  switchport_vlan: '1005'
+      #  members: ['Eth1/5','Eth1/6']
+      #  vpc: '31'
+ 
+      Eth1/47:
+        name: 'Eth1/47'
+        Description : 'TGN'   
+        switchport_mode: 'access'
+        switchport_vlan: '1005'
+
+
+    vpc:
+      domain_id: '1'
+      #system_mac: '2.2.2'
+      #virtual_peer_link_ip: 
+      keepalive_dst_ip: '10.197.127.24'
+      keepalive_src_ip: '10.197.127.25'
+      keepalive_vrf: 'management'
+ 
+       
+  gx01:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.31'
+        ip_add_secondary : '1.1.1.3'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2012::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.32'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2212::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.33'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2212::3/128'
+
+    layer3:             
+      Eth1/7/1:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/7/2:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/7/3:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/7/4:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+    layer2:       
+      Port_channel1:
+        name: 'port-channel 1'
+        Description : 'peer-link'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1001-1101'
+        vpc: 'peer-link'
+        members: ['Eth1/15/1','Eth1/15/2','Eth1/15/3','Eth1/15/4']
+
+      Port_channel12:
+        name: 'port-channel 12'
+        Description : 'vpc 12'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '12'
+        members: ['Eth1/3']
+
+      Port_channel22:
+        name: 'port-channel 22'
+        Description : 'vpc 22'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '22'
+        members: ['Eth1/27/1','Eth1/27/2']
+ 
+      #Port_channel32:
+      #  name: 'port-channel 32'
+      #  Description : 'vpc 32'   
+      #  switchport_mode: 'trunk'
+      #  switchport_vlan: '1005'
+      #  vpc: '32'
+      #  members: ['Eth1/13/1','Eth1/13/2']
+
+ 
+
+    vpc:
+      domain_id: '1'
+      #system_mac: '2.2.2'
+      #virtual_peer_link_ip: 
+      keepalive_dst_ip: '10.197.127.47'
+      keepalive_src_ip: '10.197.127.35'
+      keepalive_vrf: 'management'
+
+
+  gx02:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.41'
+        ip_add_secondary : '1.1.1.3'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2012::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.42'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2212::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.43'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2212::3/128'
+
+    layer3:                 
+      Eth1/9/1:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/9/2:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/9/3:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+      Eth1/9/4:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+
+    layer2:       
+      Port_channel1:
+        name: 'port-channel 1'
+        Description : 'peer-link'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1001-1101'
+        vpc: 'peer-link'
+        members: ['Eth1/15/1','Eth1/15/2','Eth1/15/3','Eth1/15/4']
+
+      Port_channel12:
+        name: 'port-channel 12'
+        Description : 'vpc 12'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '12'
+        members: ['Eth1/5']
+
+      Port_channel22:
+        name: 'port-channel 22'
+        Description : 'vpc 22'   
+        switchport_mode: 'trunk'
+        switchport_vlan: '1005'
+        vpc: '22'
+        members: ['Eth1/27/1','Eth1/27/2']
+
+      #Port_channel32:
+      #  name: 'port-channel 32'
+      #  Description : 'vpc 32'   
+      #  switchport_mode: 'trunk'
+      #  switchport_vlan: '1005'
+      #  vpc: '32'
+      3  members: ['Eth1/13/1','Eth1/13/2']
+
+    vpc:
+      domain_id: '1'
+      #system_mac: '2.2.2'
+      #virtual_peer_link_ip: 
+      keepalive_dst_ip: '10.197.127.35'
+      keepalive_src_ip: '10.197.127.47'
+      keepalive_vrf: 'management'
+ 
+  fx303:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.51'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2052::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.52'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2052::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.53'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2052::3/128'
+
+    layer3:             
+      Eth1/54/1:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+           
+      Eth1/54/2:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+           
+      Eth1/54/3:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'
+           
+      Eth1/54/4:
+        Description : 'To_Spine_fx01'      
+        ip_add : 'loopback 0'     
+
+    layer2:      
+      Port_channel13:
+        name: 'port-channel 13'
+        Description : 'vpc 13'   
+        switchport_mode: 'trunk'
+        switchport_vlan: 'none'
+        members: ['Eth1/51']
+
+      #Port_channel33:
+      #  name: 'port-channel 33'
+      #  Description : 'vpc 33'   
+      #  switchport_mode: 'trunk'
+      #  switchport_vlan: '1005'
+      #  members: ['Eth1/53']
+
+      Eth1/11:
+        name: 'Eth1/49/1'
+        Description : 'TGN'   
+        switchport_mode: 'access'
+        switchport_vlan: '1005'
+
+  fx01:
+    loopback:       
+      loopback0:
+        ip_add : '1.1.1.101'
+        Description : 'loop0'  
+        prefix_length:   '32'
+        ipv6_address : '2412::1/128'
+
+      loopback1:
+        ip_add : '1.1.1.102'
+        Description : 'loop1'  
+        prefix_length:   '32'
+        ipv6_address : '2412::2/128'
+
+      loopback2:
+        ip_add : '1.1.1.103'
+        Description : 'loop2'  
+        prefix_length:   '32'
+        ipv6_address : '2412::3/128'
+      
+    layer3:             
+      Eth1/37:
+        Description : 'To Leaf11'      
+        ip_add : 'loopback 0'
+
+      Eth1/38:
+        Description : 'To Leaf11'        
+        ip_add : 'loopback 0'
+
+      Eth1/39:
+        Description : 'To Leaf12'          
+        ip_add : 'loopback 0'
+
+      Eth1/40:
+        Description : 'To Leaf12'  
+        ip_add : 'loopback 0'
+
+      Eth1/21:
+        Description : 'To Leaf21'    
+        ip_add : 'loopback 0'
+
+      Eth1/22:
+        Description : 'To Leaf21'      
+        ip_add : 'loopback 0'
+
+      Eth1/23:
+        Description : 'To Leaf21'       
+        ip_add : 'loopback 0'
+
+      Eth1/24:
+        Description : 'To Leaf21'      
+        ip_add : 'loopback 0'
+    
+      Eth1/3:
+        Description : 'To Leaf22'        
+        ip_add : 'loopback 0'
+
+      Eth1/4:
+        Description : 'To Leaf22'      
+        ip_add : 'loopback 0'
+
+      Eth1/5:
+        Description : 'To Leaf22'       
+        ip_add : 'loopback 0'
+
+      Eth1/6:
+        Description : 'To Leaf22'       
+        ip_add : 'loopback 0'
+
+      Eth1/17:
+        Description : 'To Leaf31'        
+        ip_add : 'loopback 0'
+
+      Eth1/18:
+        Description : 'To Leaf31'      
+        ip_add : 'loopback 0'
+
+      Eth1/19:
+        Description : 'To Leaf31'       
+        ip_add : 'loopback 0'
+
+      Eth1/20:
+        Description : 'To Leaf31'       
+        ip_add : 'loopback 0'
+        

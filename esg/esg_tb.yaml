@@ -1,0 +1,227 @@
+devices:
+  ixia:
+      type: tgn
+      alias: ixia
+      os: 'ixianative'
+      connections:
+          tgn:
+              class: genie.trafficgen.ixianative.IxiaNative
+              ixnetwork_api_server_ip: 10.197.127.23
+              ixnetwork_tcl_port: 8009
+              ixnetwork_version: '9.10'
+              ixia_chassis_ip: 10.197.127.16
+              ixia_license_server_ip: 10.197.127.16
+              ixia_port_list: ['1/11/7', '1/11/8','1/11/4', '1/11/1','1/11/2', '1/11/8','1/11/11']
+      custom:
+          config: fhs_fact.ixncfg
+
+  fx3005:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx3005
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2017
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  fx3006:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx3006
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2033
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  fx3003:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx3003
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2024
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  fx3004:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx3004
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2044
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  
+
+  gx001:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: gx001
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2029
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+  gx002:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: gx002
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2030
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  fx001:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx001
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2047
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+ 
+  fx002:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: fx002
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2031
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  tetley001:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: tetley001
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          port: 2041
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  paris001:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: paris001
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          #port: 2034
+          port: 2037
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
+
+  paris002:
+    os: 'nxos'
+    platform: n9k
+    type: 'router'
+    alias: paris002
+    connections:
+      defaults:
+        class: unicon.Unicon
+      a:
+          protocol: telnet
+          ip: "10.197.127.12"
+          #port: 2034
+          port: 2038
+    credentials:
+      enable:
+        password: nbv12345
+      default:
+        password: nbv12345
+        username: admin
